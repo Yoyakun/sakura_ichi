@@ -52,10 +52,15 @@ body { margin: 0; font-family: sans-serif; background: #eee; }
 
 </div>
 
+<!-- 運用表画像 -->
+<div id="diagramBox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#0008; text-align:center;">
+  <img id="diagramImg" src="" style="max-width:90%; max-height:90%; margin-top:5%;">
+</div>
+
 <script>
 // 停留所
 const stops = [
-  "白井駅","間野台小学校","消防署","三丁目","えのき公園",
+  "臼井駅","間野台小学校","消防署","三丁目","えのき公園",
   "染井野小学校","運動広場","販売センター","地区センター",
   "七井戸公園","吉見台公園","七丁目","染井野南"
 ];
@@ -64,7 +69,7 @@ const stopIndexMap = {};
 stops.forEach((name, i) => { stopIndexMap[name] = i; });
 
 const stopPositions = {
-  "白井駅": 50,
+  "臼井駅": 50,
   "間野台小学校": 100,
   "消防署": 145,
   "三丁目": 187,
@@ -109,45 +114,45 @@ updateTime();
 // バス情報
 const busInfos = [
 //染井野線U501-1
-  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U501-1", delay:"定着", icon:"icon/someino/LV_U501_Usui.png" },//定時 染井野南→臼井駅 0
-  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U501-1", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Someinominami.png" },//若干遅れ 臼井駅→染井野南 1
-  { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"臼井駅～染井野南", number:"U501-1", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png" },//回送 臼井駅→染井野南 2
-  { destination:"臼井駅", route:"00系統", display:"000-0番", via:"染井野循環", number:"U501-1", delay:"定着" },//定時循環 3
-  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U501-1", delay:"定着", icon:"icon/someino/LV_U501_Someinominami.png" },//定時 臼井駅→染井野南 4
-  { destination:"染井野南", route:"00系統", display:"200-4番", via:"臼井駅～三丁目～染井野南", number:"U501-1", delay:"途中約1～3分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Someinominami.png" },//若干遅れ 臼井駅→三丁目経由→染井野南 5
-  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U501-1", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Usui.png" },//若干遅れ 染井野南→臼井駅 6
+  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U501-1", delay:"定着", icon:"icon/someino/LV_U501_Usui.png", diagram:"table/someino/W_U501.png" },//定時 染井野南→臼井駅 0
+  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U501-1", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Someinominami.png", diagram:"table/someino/W_U501.png" },//若干遅れ 臼井駅→染井野南 1
+  { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"臼井駅～染井野南", number:"U501-1", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png", diagram:"table/someino/W_U501.png" },//回送 臼井駅→染井野南 2
+  { destination:"臼井駅", route:"00系統", display:"000-0番", via:"染井野循環", number:"U501-1", delay:"定着", diagram:"table/someino/W_U501.png" },//定時循環 3
+  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U501-1", delay:"定着", icon:"icon/someino/LV_U501_Someinominami.png", diagram:"table/someino/W_U501.png" },//定時 臼井駅→染井野南 4
+  { destination:"染井野南", route:"00系統", display:"200-4番", via:"臼井駅～三丁目～染井野南", number:"U501-1", delay:"途中約1～3分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Someinominami.png", diagram:"table/someino/W_U501.png" },//若干遅れ 臼井駅→三丁目経由→染井野南 5
+  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U501-1", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Usui.png", diagram:"table/someino/W_U501.png" },//若干遅れ 染井野南→臼井駅 6
   { destination:"臼井駅", route:"00系統", display:"200-4番", via:"染井野南～三丁目～臼井駅", number:"U501-1", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Usui.png" },//若干遅れ 染井野南→三丁目経由→臼井駅 7
-  { destination:"臼井駅", route:"00系統 回送表示", display:"000-1番", via:"染井野南～臼井駅", number:"U501-1", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png" },//回送 染井野南→臼井駅 8
+  { destination:"臼井駅", route:"00系統 回送表示", display:"000-1番", via:"染井野南～臼井駅", number:"U501-1", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png", diagram:"table/someino/W_U501.png" },//回送 染井野南→臼井駅 8
  //染井野線U501-2
-  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U501-2", delay:"定着", icon:"icon/someino/LV_U501_Usui.png" },//定時 染井野南→臼井駅 9
-  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U501-2", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Someinominami.png" },//若干遅れ 臼井駅→染井野南 10
-  { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"臼井駅～染井野南", number:"U501-2", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png" },//回送 臼井駅→染井野南 11
-  { destination:"臼井駅", route:"00系統", display:"000-0番", via:"染井野循環", number:"U501-2", delay:"定着" },//定時循環 12
-  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U501-2", delay:"定着", icon:"icon/someino/LV_U501_Someinominami.png" },//定時 臼井駅→染井野南 13
-  { destination:"染井野南", route:"00系統", display:"200-4番", via:"臼井駅～三丁目～染井野南", number:"U501-2", delay:"途中約1～3分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Someinominami.png" },//若干遅れ 臼井駅→三丁目経由→染井野南 14
-  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U501-2", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Usui.png" },//若干遅れ 染井野南→臼井駅 15
-  { destination:"臼井駅", route:"00系統", display:"200-4番", via:"染井野南～三丁目～臼井駅", number:"U501-2", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Usui.png" },//若干遅れ 染井野南→三丁目経由→臼井駅 16
-  { destination:"臼井駅", route:"00系統 回送表示", display:"000-1番", via:"染井野南～臼井駅", number:"U501-2", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png" },//回送 染井野南→臼井駅 17
+  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U501-2", delay:"定着", icon:"icon/someino/LV_U501_Usui.png", diagram:"table/someino/W_U501-2.png" },//定時 染井野南→臼井駅 9
+  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U501-2", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Someinominami.png", diagram:"table/someino/W_U501-2.png" },//若干遅れ 臼井駅→染井野南 10
+  { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"臼井駅～染井野南", number:"U501-2", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png", diagram:"table/someino/W_U501-2.png" },//回送 臼井駅→染井野南 11
+  { destination:"臼井駅", route:"00系統", display:"000-0番", via:"染井野循環", number:"U501-2", delay:"定着", diagram:"table/someino/W_U501-2.png" },//定時循環 12
+  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U501-2", delay:"定着", icon:"icon/someino/LV_U501_Someinominami.png", diagram:"table/someino/W_U501-2.png" },//定時 臼井駅→染井野南 13
+  { destination:"染井野南", route:"00系統", display:"200-4番", via:"臼井駅～三丁目～染井野南", number:"U501-2", delay:"途中約1～3分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Someinominami.png", diagram:"table/someino/W_U501-2.png" },//若干遅れ 臼井駅→三丁目経由→染井野南 14
+  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U501-2", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Usui.png", diagram:"table/someino/W_U501-2.png" },//若干遅れ 染井野南→臼井駅 15
+  { destination:"臼井駅", route:"00系統", display:"200-4番", via:"染井野南～三丁目～臼井駅", number:"U501-2", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Usui.png", diagram:"table/someino/W_U501-2.png" },//若干遅れ 染井野南→三丁目経由→臼井駅 16
+  { destination:"臼井駅", route:"00系統 回送表示", display:"000-1番", via:"染井野南～臼井駅", number:"U501-2", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png", diagram:"table/someino/W_U501-2.png" },//回送 染井野南→臼井駅 17
  //染井野線U502
-  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U502", delay:"定着", icon:"icon/someino/LV_U501_Usui.png" },//定時 染井野南→臼井駅 18
-  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U502", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Someinominami.png" },//若干遅れ 臼井駅→染井野南 19
-  { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"臼井駅～染井野南", number:"U502", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png" },//回送 臼井駅→染井野南 20
-  { destination:"臼井駅", route:"00系統", display:"000-0番", via:"染井野循環", number:"U502", delay:"定着" },//定時循環 21
-  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U502", delay:"定着", icon:"icon/someino/LV_U501_Someinominami.png" },//定時 臼井駅→染井野南 22
-  { destination:"染井野南", route:"00系統", display:"200-4番", via:"臼井駅～三丁目～染井野南", number:"U502", delay:"途中約1～3分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Someinominami.png" },//若干遅れ 臼井駅→三丁目経由→染井野南 23
-  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U502", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Usui.png" },//若干遅れ 染井野南→臼井駅 24
+  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U502", delay:"定着", icon:"icon/someino/LV_U501_Usui.png", diagram:"table/someino/W_U502.png" },//定時 染井野南→臼井駅 18
+  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U502", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Someinominami.png", diagram:"table/someino/W_U502.png" },//若干遅れ 臼井駅→染井野南 19
+  { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"臼井駅～染井野南", number:"U502", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png", diagram:"table/someino/W_U502.png" },//回送 臼井駅→染井野南 20
+  { destination:"臼井駅", route:"00系統", display:"000-0番", via:"染井野循環", number:"U502", delay:"定着", diagram:"table/someino/W_U502.png" },//定時循環 21
+  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U502", delay:"定着", icon:"icon/someino/LV_U501_Someinominami.png", diagram:"table/someino/W_U502.png" },//定時 臼井駅→染井野南 22
+  { destination:"染井野南", route:"00系統", display:"200-4番", via:"臼井駅～三丁目～染井野南", number:"U502", delay:"途中約1～3分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Someinominami.png", diagram:"table/someino/W_U502.png" },//若干遅れ 臼井駅→三丁目経由→染井野南 23
+  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U502", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_Usui.png", diagram:"table/someino/W_U502.png" },//若干遅れ 染井野南→臼井駅 24
   { destination:"臼井駅", route:"00系統", display:"200-4番", via:"染井野南～三丁目～臼井駅", number:"U502", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LV_U501_3chome_Usui.png" },//若干遅れ 染井野南→三丁目経由→臼井駅 25
-  { destination:"臼井駅", route:"00系統 回送表示", display:"000-1番", via:"染井野南～臼井駅", number:"U502", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png" },//回送 染井野南→臼井駅 26
+  { destination:"臼井駅", route:"00系統 回送表示", display:"000-1番", via:"染井野南～臼井駅", number:"U502", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png", diagram:"table/someino/W_U502.png" },//回送 染井野南→臼井駅 26
   //染井野線U503
-  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U503", delay:"定着", icon:"icon/someino/LR_U503_Usui.png" },//定時 染井野南→臼井駅 27
-  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U503", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LR_U503_Someinominami.png" },//若干遅れ 臼井駅→染井野南 28
-  { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"臼井駅～染井野南", number:"U503", delay:"定着", icon:"icon/someino/LR_U503_kaiso.png" },//回送 臼井駅→染井野南 29
-  { destination:"臼井駅", route:"00系統", display:"000-0番", via:"染井野循環", number:"U503", delay:"定着" },//定時循環 30
-  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U503", delay:"定着", icon:"icon/someino/LR_U503_Someinominami.png" },//定時 臼井駅→染井野南 31
-  { destination:"染井野南", route:"00系統", display:"200-4番", via:"臼井駅～三丁目～染井野南", number:"U503", delay:"途中約1～3分遅れ 終点定時", icon:"icon/someino/LR_U503_3chome_Someinominami.png" },//若干遅れ 臼井駅→三丁目経由→染井野南 32
-  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U503", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LR_U503_Usui.png" },//若干遅れ 染井野南→臼井駅 33
-  { destination:"臼井駅", route:"00系統", display:"200-4番", via:"染井野南～三丁目～臼井駅", number:"U503", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LR_U503_3chome_Usui.png" },//若干遅れ 染井野南→三丁目経由→臼井駅 34
-  { destination:"臼井駅", route:"00系統 回送表示", display:"000-1番", via:"染井野南～臼井駅", number:"U503", delay:"定着", icon:"icon/someino/LR_U503_kaiso.png" },//回送 染井野南→臼井駅 35
+  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U503", delay:"定着", icon:"icon/someino/LR_U503_Usui.png", diagram:"table/someino/W_U503.png" },//定時 染井野南→臼井駅 27
+  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U503", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LR_U503_Someinominami.png", diagram:"table/someino/W_U503.png" },//若干遅れ 臼井駅→染井野南 28
+  { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"臼井駅～染井野南", number:"U503", delay:"定着", icon:"icon/someino/LR_U503_kaiso.png", diagram:"table/someino/W_U503.png" },//回送 臼井駅→染井野南 29
+  { destination:"臼井駅", route:"00系統", display:"000-0番", via:"染井野循環", number:"U503", delay:"定着", diagram:"table/someino/W_U503.png" },//定時循環 30
+  { destination:"染井野南", route:"00系統", display:"200-1番", via:"臼井駅～染井野南", number:"U503", delay:"定着", icon:"icon/someino/LR_U503_Someinominami.png", diagram:"table/someino/W_U503.png" },//定時 臼井駅→染井野南 31
+  { destination:"染井野南", route:"00系統", display:"200-4番", via:"臼井駅～三丁目～染井野南", number:"U503", delay:"途中約1～3分遅れ 終点定時", icon:"icon/someino/LR_U503_3chome_Someinominami.png", diagram:"table/someino/W_U503.png" },//若干遅れ 臼井駅→三丁目経由→染井野南 32
+  { destination:"臼井駅", route:"00系統", display:"200-2番", via:"臼井駅～染井野南", number:"U503", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LR_U503_Usui.png", diagram:"table/someino/W_U503.png" },//若干遅れ 染井野南→臼井駅 33
+  { destination:"臼井駅", route:"00系統", display:"200-4番", via:"染井野南～三丁目～臼井駅", number:"U503", delay:"途中約1～2分遅れ 終点定時", icon:"icon/someino/LR_U503_3chome_Usui.png", diagram:"table/someino/W_U503.png" },//若干遅れ 染井野南→三丁目経由→臼井駅 34
+  { destination:"臼井駅", route:"00系統 回送表示", display:"000-1番", via:"染井野南～臼井駅", number:"U503", delay:"定着", icon:"icon/someino/LR_U503_kaiso.png", diagram:"table/someino/W_U503.png" },//回送 染井野南→臼井駅 35
   //染井野線内回送
   { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"田町車庫～寺崎北～染井野南", number:"U501", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png" },//回送 田町車庫→染井野南 36
   { destination:"染井野南", route:"00系統 回送表示", display:"000-1番", via:"田町車庫～寺崎北～染井野南", number:"U501-2", delay:"定着", icon:"icon/someino/LV_U501_kaiso.png" },//回送 田町車庫→染井野南 37
@@ -621,7 +626,7 @@ for(let h=5; h<=24; h++){
     {stop:"消防署", time:10*60+11}, {stop:"販売センター", time:10*60+12},
     {stop:"地区センター", time:10*60+13}, {stop:"七井戸公園", time:10*60+14},
     {stop:"吉見台公園", time:10*60+15}, {stop:"七丁目", time:10*60+16},
-    {stop:"染井野南", time:9*60+17}
+    {stop:"染井野南", time:10*60+17}
   ];
   busSchedules.push({ schedule, info: busInfos[4], arrow:"⬇️", left:212, startOffset:3 });
 }//臼井駅1008
@@ -1673,8 +1678,8 @@ function getBusPosition(busObj){
 
   const last = schedule[schedule.length-1];
 
-　if(nowMin > last.time + 1) return null;
-  
+  if(nowMin > last.time + 1) return null;
+
   if(nowMin >= last.time){
     const arrow = last.arrow || busObj.arrow || "⬆️";
     const left = last.left || busObj.left || 60;
@@ -1728,15 +1733,23 @@ bus.appendChild(img);
     bus.style.left = pos.left+"px";
     bus.style.top = y+"px";
 
-    bus.onclick = ()=>{
-      const info = busObj.info;
-      alert(`行先: ${info.destination}
+bus.onclick = ()=>{
+  const info = busObj.info;
+
+  const msg =
+`行先: ${info.destination}
 系統: ${info.route}
 行先表示: ${info.display}
 経由: ${info.via}
 運用番号: ${info.number}
-遅延予想: ${info.delay}`);
-    };
+遅延予想: ${info.delay}
+
+[運用表を見る]`;
+
+  if(confirm(msg)){
+    showDiagram(info.diagram);
+  }
+};
 
     document.querySelector(".container").appendChild(bus);
     buses.push(bus);
@@ -1745,6 +1758,18 @@ bus.appendChild(img);
 
 setInterval(updateBuses,1000);
 updateBuses();
+
+function showDiagram(img){
+  const box = document.getElementById("diagramBox");
+  const image = document.getElementById("diagramImg");
+
+  image.src = img;
+  box.style.display = "block";
+}
+
+document.getElementById("diagramBox").onclick = function(){
+  this.style.display = "none";
+}
 
 </script>
 </body>
