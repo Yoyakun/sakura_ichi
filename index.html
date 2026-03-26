@@ -1673,6 +1673,8 @@ function getBusPosition(busObj){
 
   const last = schedule[schedule.length-1];
 
+　if(nowMin > last.time + 1) return null;
+  
   if(nowMin >= last.time){
     const arrow = last.arrow || busObj.arrow || "⬆️";
     const left = last.left || busObj.left || 60;
